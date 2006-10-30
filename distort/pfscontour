@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if test "$1" = "--help"; then
+    cat <<EOF
+Adds quantization / counturing artifacts
+
+EOF
+    exit 1;
+fi
+
+if test -z "$1"; then
+    SCALE=10
+else
+    SCALE=$1
+fi
+
+pfsoctavelum "scale = ${SCALE}; Y = 10.^(round(log10(Y)*scale)/scale)"

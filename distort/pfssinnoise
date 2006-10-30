@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if test "$1" = "--help"; then
+    cat <<EOF
+Adds sinusoidal noise.
+
+Usage: pfsinsinnoise [frequency [amplitude]]
+
+EOF
+    exit 1;
+fi
+
+if test -z "$1"; then
+    FREQ=5
+else
+    FREQ=$1
+fi
+
+if test -z "$2"; then
+    AMPL=0.02
+else
+    AMPL=$2
+fi
+
+echo 2> "Adding sinusoidal noise of frequency $FREQ cyc/deg and relative contrast $AMPL"
+
+pfsoctavelum "pix_per_deg = 29; f = $FREQ; rows = rows( Y ); cols = columns( Y ); noise = ones( rows, 1 ) * sin( linspace( 0, 2*pi*f*cols/pix_per_deg, cols ) ); Y = Y + ${AMPL}*noise.*Y"

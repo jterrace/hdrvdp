@@ -1,0 +1,39 @@
+#!/bin/sh
+
+if test -z "$1" || test "$1" = "--help"; then
+cat <<EOF
+Execute octave script to modify luminance channel of the pfs stream
+
+Usage: pfsoctavelum <script>
+
+Where <script> is an Octave script. Luminance channel is passed to the
+script as matrix Y. Color channnels X, Z and modified proportionally
+to Y.
+
+Example:
+  > pfsin pokoj.hdr | pfsoctavelum 'Y = Y * 240' | \
+     pfsout pokoj_calibrated.hdr
+
+To multiply values of luminance by 240.
+
+EOF
+    exit 1
+fi
+
+SCRIPTFILE=octavelum.tmp
+cat >${SCRIPTFILE} <<EOF
+1;
+## Auto-generated octave script
+[X Y Z] = pfsread( "stdin", "X", "Y", "Z" );
+_x = X ./ Y;
+_z = Z ./ Y;
+$*;
+X = _x .* Y;
+Z = _z .* Y;
+pfswrite( "stdout", "X", X, "Y", Y, "Z", Z );
+EOF
+
+octave -q ${SCRIPTFILE}
+
+rm ${SCRIPTFILE}
+

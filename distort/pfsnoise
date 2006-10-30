@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if test "$1" = "--help"; then
+    cat <<EOF
+Adds noise to pfs image
+
+Usage: pfsnoise <amplitude>
+
+EOF
+    exit 1;
+fi
+
+
+if test -z "$1"; then
+    AMPL=0.02
+else
+    AMPL=$1
+fi
+
+
+pfsoctavelum "noise = (rand( size( Y ) )-0.5)*2; Y = real( Y + ${AMPL}*noise.*Y)"

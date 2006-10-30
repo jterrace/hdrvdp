@@ -1,0 +1,5 @@
+* Downsample higher bands to improve performance
+* Calibrate both ldr and hdr version of the vdp
+* vdpvis: add percentile local filtering
+
+

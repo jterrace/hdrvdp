@@ -1,0 +1,108 @@
+.TH "vdp" 1
+.SH NAME
+vdp \- Compare two images using Visual Difference Predicator
+.SH SYNOPSIS
+.B vdp
+<target_file> <mask_file> [<output_file>] [-o <raw_output.pfs>] [-vc <visual-conditions>] [-s file.csv] [options]
+.SH DESCRIPTION
+This command processes a pair of images using Visual Difference
+Predicator and writes its output (color coded) to <output_file>. If no
+<output_file> is specified, a default file name name 'vdpout.png' is
+used. Raw VDP output can be also dumped with -o option. Raw output
+file is written in pfs format and it contains 'VDP' channel with
+probability values 0-1.
+
+\fB<target_file>\fR is the file name of an image for which detection
+probability should be computed (e.g. distorted image) and
+\fB<mask_file>\fR is the file name of an image that is a reference
+(e.g. original, not distorted). The order in which both images are
+passed to the vdp is important and may affect the results.
+
+This command can handle various image formats (for the list of
+recognized formats, execute \fBpfsin --help\fR). It also recognizes
+low-dynamic-range files (gamma corrected) and adds necessary switches
+to transform from gamma corrected luma values to luminance (assuming
+sRGB color space for input images). The maximum luminance of the
+display is by default set to 80cd/m^2. It can be modified with
+\fB--multiply-lum\fR switch (see man page of \fBvdpcmp\fR for more
+information). To learn more about gamma correction, see Charles
+Poynton's web page on Gamma
+(http://www.poynton.com/notes/colour_and_gamma/GammaFAQ.html).
+
+Note that HDR VDP compares only luminance for a pair of images so
+differences in color are not predicted. The D65 white point is used to
+compute luminance from color images.
+
+A viewing conditions (screen size, resolution, and viewing distance)
+may be specified using \fB-vc\fR option. The parameter
+<visual-conditions> is the name of the file with the viewing
+conditions. Such file should be located in the directory
+.I $HOME/.viewing-conditions
+and should have the following structure:
+
+.nf
+display-width=0.375
+display-height=0.300
+display-x-resolution=1280
+display-y-resolution=1024
+min-distance=0.5
+max-distance=0.5
+.fi
+
+Both distance and display width / height are given in
+meters. Resolution is given in pixels. If no \fB-vc\fR
+option is given, the values from the example above are used.
+
+\fB-s\fR option writes summary information to <file.cvs>. Summary
+information contains the ratios of pixels that contain distortion of
+the probability greater than 75% (first number) and 95% (second
+number). The numbers are separated by a comma. Value 0 denotes no
+pixels, 1 all pixels.
+
+VDP has a large number options, which can significantly affect the
+results. The default options were tuned for natural images and
+sine-grating noise. If the predicted probability of detection for the
+default options is higher / lower than you would expect, you may need
+to tune some options for your set of images. The primary parameters
+for tuning are:
+.TP
+.B \--mask <val>
+A slope of the threshold elevation due to the visual masking. Lower it
+for higher sensitivity in textured areas.
+.TP
+.B \--psycho <val>
+A slope of the psychometric function. Lower value makes smoother
+transition from low to high probability of detection.
+.TP
+.B \--peak-contrast <contrast>
+The peak sensitivity of the visual system. Higher values decrease
+overall sensitivity to contrast.
+.PP
+See also manual page of vdpcmp for the full list of options.
+
+This command is a frontend that combines several low level commands:
+.B pfsin
+to load hdr image,
+.B vdpcmp
+to compute probability map of visual differences,
+.B vdpvis
+to visualize results, and
+.B pfsout
+to write low dynamic range image.
+
+.SH EXAMPLES
+.TP
+vdp memorial.hdr memorial_sinnnoise.hdr 
+
+Compare 'memorial.hdr' and 'memorial_sinnoise.hdr', write the result
+to 'vdpout.png'.
+
+.SH "SEE ALSO"
+.BR vdpcmp (1)
+.BR vdpvis (1)
+.BR pfsin (1)
+.BR pfsout (1)
+.SH BUGS
+Please report bugs and comments to Rafal Mantiuk
+<mantiuk@mpi-sb.mpg.de>.
+

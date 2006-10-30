@@ -1,0 +1,65 @@
+v1.7   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+	
+	* Added: --sumary option to vdpvis (dump percent summary to a text
+	file)
+
+	* Fixed: target and mask image order was wrong in some programs
+
+	* Fixed: if OTF is used, NTF (neural) is used instead of CSF
+		
+v1.6 2006-06-13  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+
+	* Fixed: previous version could return different results on
+	differents runs because fftw library used different IFFT code,
+	although the difference was minimal. To make VDP results
+	deterministic, FFTW optimizations are switched to FFTW_ESTIMATE.	
+
+v1.5 2006-02-21  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+	
+	* Added: ABS fix, which compares target and mask and zeros
+	predictions if the pixels are almost identical
+
+	
+v1.4 2005-12-02  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+
+	* Added: Remove Inf, Nan and nonpositive values from luminance
+	channels before any processing
+
+v1.3 2005-05-09  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+	
+	* Low dynamic range images are handled automatically by vdp script
+
+	* Fixed to work with pfstools 1.2
+	
+	* Added switch --multiply-lum
+	
+	* Added more comments and copyright information
+
+v1.2 2004-11-22  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+	
+	* Added new OTFs: Marimont, Deeley (suggested)
+	
+	* Added option to the vdp script: -o <raw_vdp_output.pfs>
+	
+	* The default parameters set to the results of calibration
+	procedure from SPIE'05 paper
+
+v1.1 2004-09-23  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+	 
+	* Added: phase uncertainty. Now the VDP works twice as slower as
+	it requires additional filtering step for each band. However this
+	should predict masking more acuratelly.
+	
+	* Fixed: Original VDP parameters set to Daly's settings
+	
+	* Fixed: Peak sensitivity of HDR VDP changed to 0.005% contrast,
+	to match the original VDP
+	
+	* Added: possibility to specify viewing conditions (options or
+	config file)
+	 
+v1.0 2004-09-21  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+
+	* Initial release
+
+	  

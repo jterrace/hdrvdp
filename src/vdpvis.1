@@ -1,0 +1,22 @@
+.TH "vdpvis" 1
+.SH NAME
+vdpvis \- Visualize output from vdpcmp command
+.SH SYNOPSIS
+.B vdpvis
+.SH DESCRIPTION
+Use this command to visualize the output from the Visual Difference
+Predicator (vdpcmp command).
+.SH OPTIONS
+.TP
+.B \--sumary <file.cvs>, -s <file.cvs>
+Write summary information to <file.cvs>. Summary information contains
+the ratios of pixels that contain distortion of the probability
+greater than 75% (first number) and 95% (second number). The numbers
+are separated by a comma. Value 0 denotes no pixels, 1 all pixels.
+.SH "SEE ALSO"
+.BR vdp (1)
+.BR vdpcmp (1)
+.BR pfsin (1)
+.BR pfsout (1)
+.SH BUGS
+Not known.

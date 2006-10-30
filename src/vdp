@@ -1,0 +1,102 @@
+#!/bin/sh
+
+if test -z $2; then
+   echo "Compare two images using Visual Diference Predicator";
+   echo "Usage: vdp <target_image> <mask_image> [result_file] [-vc <viewing-conditions>] <vdp_flags>"
+   exit 1;
+fi
+
+TARGET=$1
+MASK=$2
+if test ! -z $3 && test "${3:0:1}" != "-"; then
+    RESULT=$3
+    shift 1
+else
+    RESULT="vdpout.png"
+fi
+
+echo "vdp: Comparing $TARGET and $MASK. Output written to $RESULT"
+
+
+VIEWCONDDIR="${HOME}/.viewing-conditions"
+VIEWCONDPARAMS=""
+OUTPUT=""
+VDPVISOPTION=""
+
+shift 2
+
+VDPOPTION="yes"
+
+while test "$VDPOPTION" = "yes"; do
+    case $1 in
+        ("-vc"|"--vc")
+        if test -z "$2"; then
+            echo "vdp: Missing name of the viewing conditions!"
+            exit 1;
+        fi
+        VIEWCOND=${VIEWCONDDIR}/$2
+        if test ! -e "$VIEWCOND"; then
+            echo "File \"$VIEWCOND\" missing. Choose viewing conditions from the list:"
+            ls -1 ${VIEWCONDDIR}
+            exit 1;
+        fi
+        VIEWCONDPARAMS=`cat $VIEWCOND | awk ' BEGIN { FS="="; ORS=" " } { print "--" $1 "=" $2 }'`
+        echo "Viewing conditions \"$2\": $VIEWCONDPARAMS"
+        shift 2
+        ;;
+        ("-o"|"--output")
+        if test -z "$2"; then
+            echo "vdp: Missing name of output file!"
+            exit 1;
+        fi
+        OUTPUT=$2
+        shift 2
+        ;;
+        ("-s"|"--summary")
+        if test -z "$2"; then
+            echo "vdp: Missing name of summary file!"
+            exit 1;
+        fi
+        VDPVISOPTION="$VDPVISOPTION $1 $2"
+        shift 2
+        ;;
+        (*)
+        VDPOPTION="no"
+        ;;
+    esac
+done
+
+FIFO=`mktemp vdp.XXXXXX`
+
+extension_mask=${MASK##*.}
+extension_target=${TARGET##*.}
+
+if test "$extension_mask" != "$extension_target"; then
+    echo "vdp: both target and mask files must be of the same file format"
+    exit 1
+fi
+
+case $extension_mask in
+    ("jpg"|"JPG"|"jpeg"|"JPEG"|"png"|"PNG"|"ppm"|"PPM"|"pnm"|"PNM"|"pgm"|"PGM")   
+    echo "vdp: Recognized LDR image"
+    PFSIN_OPTIONS="--linear"
+    if ! (echo "$*" | grep "multiply-lum" >/dev/null); then   
+        echo "vdp: Using max luminance of the display=80cd/m^2"
+        VDP_OPTIONS="--multiply-lum=80"       
+    fi
+    ;;
+esac
+
+rm -f $FIFO
+mkfifo $FIFO
+
+if test -z "$OUTPUT"; then
+    pfsinmulti ${PFSIN_OPTIONS} $TARGET $MASK -- vdpcmp @1 @2 ${VDP_OPTIONS} $VIEWCONDPARAMS $* | vdpvis $VDPVISOPTION | pfsout $RESULT
+else
+    OUT_FIFO=`mktemp`
+    rm -f $OUT_FIFO
+    mkfifo $OUT_FIFO
+      
+    (pfsinmulti ${PFSIN_OPTIONS} $TARGET $MASK -- vdpcmp @1 @2 ${VDP_OPTIONS} $VIEWCONDPARAMS $* | tee $OUT_FIFO | vdpvis $VDPVISOPTION | pfsout $RESULT) & pfsextractchannels VDP <$OUT_FIFO >"$OUTPUT"
+fi
+rm $FIFO

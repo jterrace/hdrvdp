@@ -1,0 +1,200 @@
+.TH "vdpcmp" 1
+.SH NAME
+vdpcmp \- Compare two images using Visual Difference Predicator (low level command)
+.SH SYNOPSIS
+.B vdpcmp
+<target_file> <mask_file> [--ldr]  [--mask <val>] [--psycho <val>] [--detection-mechanism <dmID>] [--no-phase-uncertainty] [--dump <pattern>] [--verbose] [--help] 
+.SH DESCRIPTION
+This command processes a pair of images using Visual Difference
+Predicator and writes a map of probability detection to standard
+output. It is more convenient to use 'vdp' instead of this command, as
+it can handle image format conversion.
+
+\fB<target_file>\fR is the file name of an image for which detection
+probability should be computed (e.g. distorted image) and
+\fB<mask_file>\fR is the file name of an image that is a reference
+(e.g. original, not distorted). The order in which both images are
+passed to the vdp is important and may affect the results.
+
+The format of input images and output map is pfs. Use one of the
+readers from pfstools package to read images into vdpcmp.
+
+.SH OPTIONS
+
+.TP
+.B \--ldr
+
+Use the original (non high dynamic range) version of the VDP. Since
+the original VDP has not been maintained for ages, this option is
+\fIdepreciated\fR. HDR VDP should provide better results and can work with
+LDR images as well.
+
+.TP
+.B \--multiply-lum <val>
+
+Multiply luminance values of both target and mask by <val>. Using such
+multiplier is necessary if the images contain only relative but not
+absolute luminance values (cd/m^2). In case of low dynamic range
+images that have been converted from sRGB color space to XYZ
+(\fB--linear\fR switch of \fBpfsinppm\fR), \fB--multiply-lum\fR should
+be set to the maximum luminance of the display (see also man page of
+\fBvdp\fR).
+
+.TP
+.B \--mask <val>
+Set the slope of the masking function to <val>. Default 1.
+
+
+.TP
+.B \--psycho <val>
+Set the slope of the psychometric function to <val>. Default 3.5.
+
+.TP
+.B \--peak-contrast <contrast>
+The peak sensitivity of the visual system given as minimum
+distinguishable contrast. The value must be given as a fraction, not
+percent!. Default value: 0.006 (=0.6%)
+
+.TP
+.B \--otf <otfID>
+Name of the optical tranfer function (OTF, or PSF of the eye). Possible
+values:
+
+.B DEELEY 
+(default) - OTF from 'Deeley, R.J., Drasdo, N., & Charman,
+W. N. (1991). A simple parametric model of the human ocular modulation
+transfer function. Ophthalmology and Physiological Optics, 11,
+91-93'. It takes into account pupil size, which depends on adaptation
+luminance. This is suggested OTF function for the VDP.
+
+.B MARIMONT
+- OTF from 'Marimont D.H. and Wandell B.A., 1994. Matching colour
+images; the effects of axial chromatic aberration. Journal of the
+Optical Society of America A, 11 (no 12) 2113-3122'. It takes into
+account pupil size, which depends on adaptation luminance. (note: the
+integration performed in the current implementation is not
+accurate. This can lead to artifacts in the filtered image).
+
+.B SPENCER
+- PSF from Spencer et al. SIGGRAPH'95 paper 
+
+.B NORMANN
+- PSF from Normann et al. IEEE Trans. on Systems, Man and Cybernetics '83 paper (note: this function can be wrong (typo in the paper?), therefore it is not recommended to use it).
+
+.B WESTHEIMER
+- PSF from Westheimer "The eye as an optical instrument" in Handbook of Perception and Visual Performance. This function is also used in Sarnoff Visual Discrimination Model.
+
+.B NONE
+- no OTF preprecessing 
+
+
+.TP
+.B \--detection-mechanism <dmID>
+Name of the detection mechanism to use. Currently supported:
+
+.B WATSON, VDP
+- Watson cortex transform (default)
+
+.B SIMPLE
+- no multichannel processing, only a single channel
+
+.TP
+.B \--no-abs-fix
+
+VDP can predict visible differences for pixels that are identical
+because of inaccuracies of visual band filters. To avoid this, as a
+final step HDR VDP compares two input images pixel by pixel and if the
+corresponding pixels are almost identical (difference < 0.0001), it
+sets the prediction for that pixel to 0. Use \fB--no-abs-fix\fR to
+disable this behavior.
+
+.TP
+.B \--dump <pattern>
+Dump intermediate images resulting from VDP processing. The pattern
+specifies names of the files to dump. A shell pattern ('*' is a wild
+card character) can be used to dump many frames. The option can be
+specified many times to dump additional images. All images are dumped
+in pfs format. Some available dump images are listed below. More can
+be found in the sources.
+.RS
+.PD 0
+.TP
+.B target_otf.pfs
+target after OTF filtering
+.TP
+.B mask_otf.pfs
+mask after OTF filtering
+.TP
+.B adaptation_map.pfs
+adaptatin map used for CSF filtering
+.TP
+.B target_photoreceptor_nonlin.pfs
+target after photoreceptor nonlinearity
+.TP
+.B mask_photoreceptor_nonlin.pfs
+mask after photoreceptor nonlinearity
+.TP
+.B target_csf.pfs
+target after CSF filtering
+.TP
+.B mask_csf.pfs
+mask after CSF filtering
+.TP
+.B dom_filter_cortex_N.pfs
+DOM filter for the band N (1-6)
+.TP
+.B mask_cortex_N_M.pfs
+mask for the band N and orientatiom M after cortex transform
+.TP
+.B target_cortex_N_M.pfs
+target for the band N and orientatiom M after cortex transform
+.TP
+.B filter_cortex_N_M.pfs
+cortex filter for the band N and orientatiom M
+.TP
+.B difference_cortex_N_M.pfs
+difference between target and mask for the band N and orientatiom M
+.TP
+.B te_cortex_N_M.pfs
+threshold elevation (due to masking) for the band N and orientatiom M
+.TP
+.B probability_cortex_N_M.pfs
+probability of detection for the band N and orientatiom M
+.RE
+.PD
+.TP
+.B \--no-phase-uncertainty
+Phase uncertainty improves the prediction of visual masking by
+discounting the influence of phase from the masking thresholds. By
+default, phase uncertainty is included in the VDP calculation. However
+it almost doubles time required to process an image. This switch can
+be used to turn off computation of phase uncertainty.
+
+.PP
+The following options define viewing conditions. Because passing a
+complete set of options to specify viewing conditions is rather
+tedious, the better way is to use \fB-vc\fR option of the \fIvdp\fR
+command (see the man page for vdp).
+
+.TP
+.B \--display-width \--display-height
+Physical dimensions of the display given in meters. Default: width
+0.375 height 0.300.
+
+.TP
+.B \--min-distance \--max-distance
+Minimum and maximum distance from which the display is
+observed. Default: min 0.5 max 0.5.
+
+.TP
+.B \--display-x-resolution \--display-y-resolution
+Vertical and horizontal resolution of the display given in
+pixels. Default: horizontal 1280 vertical 1024.
+
+.SH "SEE ALSO"
+.BR vdp (1)
+.BR vdpvis (1)
+.BR pfsin (1)
+.SH BUGS
+Please report bugs and comments to Rafal Mantiuk
+<mantiuk@mpi-sb.mpg.de>.
