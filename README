@@ -31,18 +31,26 @@ implementation from that paper.
 
 The HDR version (HDR VDP) was based on:
 
-Rafal Mantiuk, Karol Myszkowski, and Hans-Peter Seidel
+Rafal Mantiuk, Scott Daly, Karol Myszkowski and Hans-Peter Seidel.
+Predicting Visible Differences in High Dynamic Range Images - Model and its Calibration.
+In: Proc. of Human Vision and Electronic Imaging X, IS&T/SPIE's 17th Annual Symposium on Electronic Imaging 2005. pp. 204-214
+
+and
+
+Rafal Mantiuk, Karol Myszkowski and Hans-Peter Seidel
 Visible Difference Predicator for High Dynamic Range Images
-In Proceedings of International Conference on Systems,
-Man and Cybernetics, IEEE SMC 2004 (to be published)
+In: Proc. of IEEE International Conference on Systems, Man and Cybernetics, 2004. pp. 2763-2769
 
-This software was testes on Debian 3.1.
+Please put the HVEI publication in your citations.
 
-Note that both versions of the VDP can give quite different
-results. This is because both are tuned to different viewing
-conditions: HDR VDP - to real world; VDP - to display device of
-particular luminance range. They may be also separately calibrated. 
+The sources should compile under all variants of Linux and
+cygwin. Compilation under OSX may require some small changes.
 
+Since the original version of VDP has not been maintained for quite
+some time, I would strongly recommend using HDR VDP. HDR VDP has the
+same capabilities as VDP, but should give more consistent predictions
+for much larger dynamic range. It also includes aspect that are
+missing in the original VDP, such as the optics of the eye (OTF).
 
 License:
 --------
