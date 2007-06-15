@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: csf_filter.cpp,v 1.1 2006/10/30 19:07:48 rafm Exp $
+ * $Id: csf_filter.cpp,v 1.2 2007/06/15 15:23:14 rafm Exp $
  */
 
 #include <math.h>
@@ -57,7 +57,7 @@ MultiAdaptationCSF::MultiAdaptationCSF( int cols, int rows,
 
   static const float templateAdaptationLevels[] = 
     {
-      0.0001, 0.01, 0.1, 1, 10, 100
+      0.001, 0.01, 0.1, 1, 10, 100
     };
   const int templateAdaptationLevelsCount = sizeof( templateAdaptationLevels ) / sizeof( float );
   
@@ -75,8 +75,10 @@ MultiAdaptationCSF::MultiAdaptationCSF( int cols, int rows,
 
     float meanObserverDistance = (viewCond.minDistance + viewCond.maxDistance)/2;
     float pixelsPerDeg = viewCond.getPixelsPerDegree( meanObserverDistance );
-    float imgSizeVD = ((float)viewCond.xResolution / pixelsPerDeg) *
-      ((float)viewCond.yResolution / pixelsPerDeg);
+//    float imgSizeVD = ((float)viewCond.xResolution / pixelsPerDeg) *
+//      ((float)viewCond.yResolution / pixelsPerDeg);
+    float imgSizeVD = 1; // use CSF for small (1 deg) patches
+    
     createCSFFilter( filters[i], adaptationLevels[i], imgSizeVD,
       pixelsPerDeg, meanObserverDistance, CSF_DALY_NORMALIZED );
 
@@ -88,10 +90,16 @@ MultiAdaptationCSF::MultiAdaptationCSF( int cols, int rows,
       const int pixels = otf->getRows() * otf->getCols();
       for( int j = 0; j < pixels; j++ ) {
         (*filters[i])(j) /= (*otf)(j);
+
+        // TODO: Can CSF be >1 because of CSF/OTF mismatch?
         if( (*filters[i])(j) > 1 )
           (*filters[i])(j) = 1;
       }
     }
+
+    dumpImageAspect->dump( "filter_csf_%+d.pfs", filters[i], "Y",
+      (int)(log10(adaptationLevels[i])) );
+    
     
   }  
 }
