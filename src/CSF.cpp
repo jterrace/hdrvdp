@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: CSF.cpp,v 1.1 2006/10/30 19:07:48 rafm Exp $
+ * $Id: CSF.cpp,v 1.2 2007/06/15 15:19:15 rafm Exp $
  */
 
 #include <math.h>
@@ -135,7 +135,8 @@ void createCSFFilter( pfs::Array2D *filter,
     }
   }
   // Estimating DC filter component
-  (*filter)(0,0)=(*filter)(0,1);
+  //(*filter)(0,0)=(*filter)(0,1);
+  (*filter)(0,0)= 0; 
 
   if( CSF_type == CSF_DALY_NORMALIZED || CSF_type == CSF_DALY_MULTIADAPTATION) {
     // Normalize CSF, so that maximum sensitivity == 1
