@@ -23,7 +23,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: otf.cpp,v 1.1 2006/10/30 19:07:48 rafm Exp $
+ * $Id: otf.cpp,v 1.2 2008/01/13 13:30:15 rafm Exp $
  */
 
 #include <iostream>
@@ -702,7 +702,7 @@ DeeleyOTF::DeeleyOTF( const ViewingConditions &viewCond, int cols, int rows, flo
       float v = pix_per_deg * sqrtf((float)(dx * dx + dy * dy));
       if( v == 0 ) v = 0.1;
       
-      (*filter)(x,y) = expf( -(v/ (20.9 - 2.1*p_mm))*(1.3-0.07*p_mm) );
+      (*filter)(x,y) = expf( -pow(v/ (20.9 - 2.1*p_mm), 1.3-0.07*p_mm) );
       
     }
   }
