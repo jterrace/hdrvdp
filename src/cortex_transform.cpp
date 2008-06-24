@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: cortex_transform.cpp,v 1.1 2006/10/30 19:07:48 rafm Exp $
+ * $Id: cortex_transform.cpp,v 1.2 2008/06/24 00:11:09 rafm Exp $
  */
 
 #include <math.h>
@@ -450,11 +450,6 @@ void buildFanFilter( pfs::Array2D *filter, int orientation )
   // Negative freq
   for( y = filter->getRows()-1, dy = 0.0; y >= filterHeight; y--, dy += y_norm ) {
     for( x = 0, dx = 0.0; x < filterWidth; x++, dx += x_norm ) {
-
-      if( x == 0 ) {
-        (*filter)(x,y) = 0.0;
-        continue;
-      }
       
       float theta = atan2f( -dy, dx );
       float delta_theta = fabs( theta + theta_l );

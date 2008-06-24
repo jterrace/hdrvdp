@@ -1,3 +1,7 @@
+v1.?   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+
+	* Fixed: spurious zeros in the fan filters
+	
 v1.7   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
 	
 	* Added: --sumary option to vdpvis (dump percent summary to a text
