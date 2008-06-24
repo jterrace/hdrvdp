@@ -23,7 +23,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: otf.cpp,v 1.2 2008/01/13 13:30:15 rafm Exp $
+ * $Id: otf.cpp,v 1.3 2008/06/24 16:59:45 rafm Exp $
  */
 
 #include <iostream>
@@ -594,7 +594,7 @@ MarimontOTF::MarimontOTF( const ViewingConditions &viewCond,
   float meanObserverDistance = (viewCond.minDistance + viewCond.maxDistance)/2;
   float pix_per_deg = viewCond.getPixelsPerDegree( meanObserverDistance );
 
-  float x_norm = 0.5 / filterWidth, y_norm = 0.5 / filterHeight;
+  float x_norm = 0.5 / (filterWidth-1), y_norm = 0.5 / (filterHeight-1);
 
   float dx, dy;
   int x, y;

@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: CSF.cpp,v 1.2 2007/06/15 15:19:15 rafm Exp $
+ * $Id: CSF.cpp,v 1.3 2008/06/24 16:59:44 rafm Exp $
  */
 
 #include <math.h>
@@ -58,7 +58,7 @@ void createCSFFilter( pfs::Array2D *filter,
   float pix_per_deg = pixelsPerDegree;
   
   int x, y;
-  float x_norm = 0.5 / filterWidth, y_norm = 0.5 / filterHeight;
+  float x_norm = 0.5 / (filterWidth-1), y_norm = 0.5 / (filterHeight-1);
   float dx, dy;
   float theta, r_theta;
   float ro;

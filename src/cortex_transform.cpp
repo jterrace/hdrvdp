@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: cortex_transform.cpp,v 1.2 2008/06/24 00:11:09 rafm Exp $
+ * $Id: cortex_transform.cpp,v 1.3 2008/06/24 16:59:45 rafm Exp $
  */
 
 #include <math.h>
@@ -334,7 +334,7 @@ void buildDomAndMesaFilter( pfs::Array2D *domFilter, pfs::Array2D *mesaFilter,
   ro_min *= ro_min;
 
   int x, y;
-  float x_norm = 0.5 / filterWidth, y_norm = 0.5 / filterHeight;
+  float x_norm = 0.5 / (filterWidth-1), y_norm = 0.5 / (filterHeight-1);
   float dx, dy;
   float ro;
   float mesa, mesa1, mesa2;
@@ -424,7 +424,7 @@ void buildFanFilter( pfs::Array2D *filter, int orientation )
   float theta_l = (orientation - 1) * theta_tw - M_PI / 2.0;
   int filterWidth=filter->getCols();
   int filterHeight=filter->getRows() / 2 + 1;
-  float x_norm = 0.5 / filterWidth, y_norm = 0.5 / filterHeight;
+  float x_norm = 0.5 / (filterWidth-1), y_norm = 0.5 / (filterHeight-1);
 
   // Positive freq
   int x, y;

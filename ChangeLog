@@ -1,6 +1,8 @@
 v1.?   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
 
-	* Fixed: spurious zeros in the fan filters
+	* Fixed: spurious zeros in the fan filters (thanks to Kenichiro Masaoka)
+	
+	* Fixed: frequency misalignment bug (thanks to Kenichiro Masaoka)
 	
 v1.7   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
 	
