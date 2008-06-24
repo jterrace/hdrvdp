@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: vdpcmp.cpp,v 1.1 2006/10/30 19:07:48 rafm Exp $
+ * $Id: vdpcmp.cpp,v 1.2 2008/06/24 00:10:02 rafm Exp $
  */
 
 #include <iostream>
@@ -130,7 +130,7 @@ unsigned long checkSum( const FFTWComplexArray *data )
 }
 #endif
 
-static void errorCheck( bool condition, char *string )
+static void errorCheck( bool condition, const char *string )
 {
   if( !condition ) {
     throw pfs::Exception( string );
@@ -260,7 +260,8 @@ void processVDP(int argc, char **argv)
 //      cerr << "option: " << argv[oi++] << "\n";
   
   // Exactly two non-option arguments: target, and mask
-  errorCheck( optind == argc - 2, "Both target and mask files must be specified" );
+  errorCheck( optind >= (argc - 2), "Too many input arguments" );
+  errorCheck( optind == (argc - 2), "Both target and mask files must be specified" );
 
   targetFile = argv[optind++];
   maskFile = argv[optind++];
