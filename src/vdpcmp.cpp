@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: vdpcmp.cpp,v 1.2 2008/06/24 00:10:02 rafm Exp $
+ * $Id: vdpcmp.cpp,v 1.3 2008/06/24 17:50:58 rafm Exp $
  */
 
 #include <iostream>
@@ -42,7 +42,6 @@
 #include "fftutils.h"
 
 #include "dump_image_aspect.h"
-
 
 #define PROG_NAME "vdpcmp"
 
@@ -285,7 +284,7 @@ void processVDP(int argc, char **argv)
   
   maskFh = maskIsStdin ? stdin : fopen( maskFile, "rb" );
   errorCheck( maskFh != NULL, "Can not open mask image file" );
-
+  
   pfs::DOMIO pfsio;
     
   // Load target image (with artifacts)
@@ -416,6 +415,14 @@ void newProcessVDP( const pfs::Array2D *inTarget, const pfs::Array2D *inMask,
   PhotoreceptorNonlin *nonlinearity, CSFFilter *csfFilter, DetectionMechanism *dm,
   bool absFix )
 {
+
+#ifdef HAVE_LIBFFTW_THREADS
+  // This should make things faster on 2 and more CPU machines, but I
+  // did not observe any performance improvement
+  fftwf_init_threads();
+  fftwf_plan_with_nthreads(2);
+#endif
+  
   const int rows = inTarget->getRows(), cols = inTarget->getCols();
   
   BidomainArray2D target( cols, rows ), mask( cols, rows );
@@ -464,6 +471,10 @@ void newProcessVDP( const pfs::Array2D *inTarget, const pfs::Array2D *inMask,
     std::cerr << "Applying ABS fix\n";
     fixPredictionWithRMS( inTarget, inMask, probabilityMap );
   }
+
+#ifdef HAVE_LIBFFTW_THREADS
+  fftwf_cleanup_threads();
+#endif
   
 }
 

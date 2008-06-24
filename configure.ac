@@ -29,8 +29,14 @@ PKG_CHECK_MODULES(FFTW, fftw3f >= 3.0,,
 AC_CHECK_LIB(fftw3f, fftwf_plan_dft_c2r_2d,,
              [ AC_MSG_ERROR(Can not find fftw3f library. Download it from http://www.fftw.org/. Remember to add --enable-float switch! Make also sure that PKG_CONFIG_PATH points to the directory, in which fftw3f.pc is located.) ],-lm)
 )
+
+AC_CHECK_LIB(fftw3f_threads, fftwf_init_threads,
+             [ FFTW_THREADS_LIBS="-lfftw3f_threads -lpthread"; AC_DEFINE(HAVE_LIBFFTW_THREADS, 1, [Support for FFTW with multiple threads]) ],
+             [ AC_MSG_WARN(Can not find fftw3f_threads library. Thread support will be disabled.) ],$FFTW_LIBS -lpthread)
+             
 AC_SUBST(FFTW_CFLAGS)
 AC_SUBST(FFTW_LIBS)
+AC_SUBST(FFTW_THREADS_LIBS)
 
         
 AC_CONFIG_FILES([Makefile src/Makefile distort/Makefile])
@@ -48,6 +54,7 @@ vdp is now configured
 
   fftw cflags:          $FFTW_CFLAGS
   fftw libs:            $FFTW_LIBS
+  fftw_threads libs:    $FFTW_THREADS_LIBS
   
   Debug mode            $enable_debug
 ])

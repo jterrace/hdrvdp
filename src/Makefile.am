@@ -17,5 +17,5 @@ vdpcmp_SOURCES = vdpcmp.cpp \
 
 vdpvis_SOURCES = vdpvis.cpp
 
-LIBS += $(PFS_LIBS) $(FFTW_LIBS) 
+LIBS += $(PFS_LIBS) $(FFTW_THREADS_LIBS) $(FFTW_LIBS) 
 INCLUDES = $(PFS_CFLAGS) $(FFTW_CFLAGS)
