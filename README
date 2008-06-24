@@ -41,8 +41,6 @@ Rafal Mantiuk, Karol Myszkowski and Hans-Peter Seidel
 Visible Difference Predicator for High Dynamic Range Images
 In: Proc. of IEEE International Conference on Systems, Man and Cybernetics, 2004. pp. 2763-2769
 
-Please put the HVEI publication in your citations.
-
 The sources should compile under all variants of Linux and
 cygwin. Compilation under OSX may require some small changes.
 
@@ -115,6 +113,9 @@ make
 To install (for /usr/local must be root user):
 
 make install
+
+If are compiling sources from the CVS, run ./bootstrap script to
+generate ./configure script.
 
 Documentation:
 --------------

@@ -1,0 +1,6 @@
+libtoolize --force
+rm -f config.cache
+aclocal
+automake -a
+automake
+autoconf
