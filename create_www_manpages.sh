@@ -3,7 +3,7 @@
 MAN_PAGES=`find ./src -name "*.1"`
 DESTDIR='www_doc'
 
-mkdir -p $DESTDIR
+mkdir -p ${DESTDIR}/man1
 
 for FILE in ${MAN_PAGES}; do
     BASENAME=`basename $FILE`
