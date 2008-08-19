@@ -23,7 +23,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: otf.cpp,v 1.3 2008/06/24 16:59:45 rafm Exp $
+ * $Id: otf.cpp,v 1.4 2008/08/19 00:36:26 rafm Exp $
  */
 
 #include <iostream>
@@ -65,7 +65,7 @@ void multiplyAndAddArray(pfs::Array2D *z, const pfs::Array2D *x, const float f);
  */
 float getPupilDiameter( float Y )
 {
-  return (4.9 - 3 * tanhf( 0.4 * (log10f( Y ) + 1) ))*1e-3;
+  return (4.9 - 3 * tanhf( 0.4 * (log10f( Y * M_PI ) - 0.5) ))*1e-3;
 }
 
 

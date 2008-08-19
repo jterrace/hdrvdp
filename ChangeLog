@@ -4,6 +4,8 @@ v1.?   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
 	
 	* Fixed: frequency misalignment bug (thanks to Kenichiro Masaoka)
 
+	* Fixed: pupil diameter formula 
+	
 	* Added: support for multithreaded FFTW (though could not observe any speed up)
 	
 v1.7   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
