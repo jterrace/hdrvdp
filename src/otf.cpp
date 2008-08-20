@@ -23,7 +23,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: otf.cpp,v 1.4 2008/08/19 00:36:26 rafm Exp $
+ * $Id: otf.cpp,v 1.5 2008/08/20 21:18:37 rafm Exp $
  */
 
 #include <iostream>
@@ -61,7 +61,9 @@ void multiplyAndAddArray(pfs::Array2D *z, const pfs::Array2D *x, const float f);
 
 /**
  * returns pupil diameter in mm for the adaptation level of Y cd/m^2
- * from Moon and Spencer, 1944
+ * from:
+ * P. Moon and D. Spencer, "On the Stiles-Crawford effect," J. Opt. Soc.
+ * Am.  34, 319-329 (1944), Equation 3
  */
 float getPupilDiameter( float Y )
 {
