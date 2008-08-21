@@ -1,4 +1,4 @@
-v1.?   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+v1.7 2008-08-21  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
 
 	* Fixed: spurious zeros in the fan filters (thanks to Kenichiro Masaoka)
 	
@@ -6,9 +6,7 @@ v1.?   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
 
 	* Fixed: pupil diameter formula 
 	
-	* Added: support for multithreaded FFTW (though could not observe any speed up)
-	
-v1.7   Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
+	* Added: support for multithreaded FFTW (though I could not observe any speed up)	
 	
 	* Added: --sumary option to vdpvis (dump percent summary to a text
 	file)

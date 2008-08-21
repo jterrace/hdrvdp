@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: vdpvis.cpp,v 1.1 2006/10/30 19:07:48 rafm Exp $
+ * $Id: vdpvis.cpp,v 1.2 2008/08/21 17:48:00 rafm Exp $
  */
 
 #include <iostream>
@@ -52,7 +52,7 @@ class QuietException
 {
 };
 
-static void errorCheck( bool condition, char *string )
+static void errorCheck( bool condition, const char *string )
 {
   if( !condition ) {
     throw pfs::Exception( string );

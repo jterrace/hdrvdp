@@ -55,7 +55,8 @@ License:
 
 The source code is available under General Public Licence (GPL) (see
 COPYING file). If you find this software useful and you have used it
-for your project or paper, please cite our following paper:
+for your project or paper, please state which version you are using
+and cite the following paper:
 
 Rafal Mantiuk,Scott Daly, Karol Myszkowski, Hans-Peter Seidel
 Predicting Visible Differences in High Dynamic Range Images -
@@ -85,8 +86,8 @@ Note: add --enable-float switch when running ./configure script. Otherwise
   32bit float version of the library won't be generated.
 
 * To read and write HDR images
-  pfstools 1.0
-  http://www.mpi-sb.mpg.de/resources/pfstools/
+  pfstools
+  http://pfstools.sourceforge.net/
 
 Besides the libraries, netpbm package is needed to write .png files,
 which are the output of the 'vdp' frontend.
@@ -136,7 +137,6 @@ Note
 -----------
 
 This implementation of the Visual Difference Predicator (VDP) was
-initially based on Karol's SGI code. However, it was progressively
-ported, redesigned and reimplemented, so now it hardly resembles the
-old code.
+initially based on Karol Myszkowski's SGI code. However, it was
+progressively ported, redesigned and reimplemented.
 
