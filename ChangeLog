@@ -1,3 +1,7 @@
+
+	* Fixed: pupil diameter replaced with pupil radius in Merimont &
+	Wandel's OTF (thanks to Kenichiro Masaoka)
+
 v1.7 2008-08-21  Rafal Mantiuk  <mantiuk@mpi-inf.mpg.de>
 
 	* Fixed: spurious zeros in the fan filters (thanks to Kenichiro Masaoka)

@@ -23,7 +23,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: otf.cpp,v 1.5 2008/08/20 21:18:37 rafm Exp $
+ * $Id: otf.cpp,v 1.6 2008/09/11 22:20:13 rafm Exp $
  */
 
 #include <iostream>
@@ -601,11 +601,11 @@ MarimontOTF::MarimontOTF( const ViewingConditions &viewCond,
   float dx, dy;
   int x, y;
 
-  float p = getPupilDiameter( adaptationLuminance );
+  float p = getPupilDiameter( adaptationLuminance )/2; // Pupil radius in meters
 
   std::cerr << "Creating OTF filter..";
 
-  std::cerr << "(pupil diameter " << p*1e3 << "mm for adaptation lum " << adaptationLuminance << "cd/m^2)";  
+  std::cerr << "(pupil diameter " << p*1e3*2 << "mm for adaptation lum " << adaptationLuminance << "cd/m^2)";  
 
   for (y = 0, dy = 0.0; y < filterHeight; y ++, dy += y_norm)
   {
