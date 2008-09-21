@@ -1,3 +1,4 @@
+	* Fixed: vdp script recognizes BMP files and is run with bash instead of sh
 
 	* Fixed: pupil diameter replaced with pupil radius in Merimont &
 	Wandel's OTF (thanks to Kenichiro Masaoka)

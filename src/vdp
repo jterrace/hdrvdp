@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if test -z $2; then
    echo "Compare two images using Visual Diference Predicator";
@@ -77,7 +77,7 @@ if test "$extension_mask" != "$extension_target"; then
 fi
 
 case $extension_mask in
-    ("jpg"|"JPG"|"jpeg"|"JPEG"|"png"|"PNG"|"ppm"|"PPM"|"pnm"|"PNM"|"pgm"|"PGM")   
+    ("jpg"|"JPG"|"jpeg"|"JPEG"|"png"|"PNG"|"ppm"|"PPM"|"pnm"|"PNM"|"pgm"|"PGM"|"bmp"|"BMP")   
     echo "vdp: Recognized LDR image"
     PFSIN_OPTIONS="--linear"
     if ! (echo "$*" | grep "multiply-lum" >/dev/null); then   
