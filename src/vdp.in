@@ -1,4 +1,4 @@
-#!/bin/bash
+#!@BASH_PATH@
 
 if test -z $2; then
    echo "Compare two images using Visual Diference Predicator";

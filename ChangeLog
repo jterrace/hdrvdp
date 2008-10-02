@@ -1,3 +1,7 @@
+	* Added: bash auto-detection in configure.ac
+	
+	* Fixed: pupil diameter formula (previous fix was wrong)
+	
 	* Fixed: vdp script recognizes BMP files and is run with bash instead of sh
 
 	* Fixed: pupil diameter replaced with pupil radius in Merimont &

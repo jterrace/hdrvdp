@@ -33,13 +33,28 @@ AC_CHECK_LIB(fftw3f, fftwf_plan_dft_c2r_2d,,
 AC_CHECK_LIB(fftw3f_threads, fftwf_init_threads,
              [ FFTW_THREADS_LIBS="-lfftw3f_threads -lpthread"; AC_DEFINE(HAVE_LIBFFTW_THREADS, 1, [Support for FFTW with multiple threads]) ],
              [ AC_MSG_WARN(Can not find fftw3f_threads library. Thread support will be disabled.) ],$FFTW_LIBS -lpthread)
+
+dnl
+dnl  Check for bash executable
+dnl
+
+AC_ARG_WITH(bash,
+	[  --with-bash             location of the bash shell, needed for some pfs* scripts],
+	[ BASH_PATH=$withval ])
+        
+test -z "$BASH_PATH" && BASH_PATH="bash"
+                
+AC_PATH_PROG(BASH_PATH, $BASH_PATH)
+test -z "$BASH_PATH" && ( AC_MSG_WARN([no bash shell found in the path, some programs may fail to run]); BASH_PATH="/bin/bash" )     
              
 AC_SUBST(FFTW_CFLAGS)
 AC_SUBST(FFTW_LIBS)
 AC_SUBST(FFTW_THREADS_LIBS)
+AC_SUBST(BASH_PATH)
 
         
 AC_CONFIG_FILES([Makefile src/Makefile distort/Makefile])
+AC_CONFIG_FILES([src/vdp])
 
 AC_MSG_RESULT([
 vdp is now configured
@@ -55,6 +70,8 @@ vdp is now configured
   fftw cflags:          $FFTW_CFLAGS
   fftw libs:            $FFTW_LIBS
   fftw_threads libs:    $FFTW_THREADS_LIBS
+
+  bash path:            $BASH_PATH
   
   Debug mode            $enable_debug
 ])
