@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: array2d_algorithm.cpp,v 1.1 2006/10/30 19:07:48 rafm Exp $
+ * $Id: array2d_algorithm.cpp,v 1.2 2009/06/10 06:27:23 rafm Exp $
  */
 
 #include <math.h>
@@ -104,7 +104,7 @@ void clampToPositive( const pfs::Array2D *from, pfs::Array2D *to )
   }
 
   for( int i = 0; i < size; i++ ) {
-    if( isinf( (*from)(i) ) == -1 || isnanf( (*from)(i) ) || (*from)(i) <= 0 )
+    if( isinf( (*from)(i) ) == -1 || isnan( (*from)(i) ) || (*from)(i) <= 0 )
       (*to)(i) = minPositive;
     else if( isinf( (*from)(i) ) == 1 )
       (*to)(i) = maxNonInf;
