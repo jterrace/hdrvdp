@@ -1,4 +1,4 @@
-AC_INIT(hdrvdp, 1.7)
+AC_INIT(hdrvdp, 1.7.1)
 AM_INIT_AUTOMAKE
 
 AC_MSG_CHECKING([for pfs library])
