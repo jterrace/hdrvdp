@@ -5,7 +5,26 @@ vdpvis \- Visualize output from vdpcmp command
 .B vdpvis
 .SH DESCRIPTION
 Use this command to visualize the output from the Visual Difference
-Predicator (vdpcmp command).
+Predicator (vdpcmp command). The command is normally invoked
+automatically form the \fIvdp\fR script.
+.P
+The generated images use the following color-coding to describe the
+probability of detection:
+.TP 14
+<25% 
+- gray
+.TP
+50% 
+- green
+.TP
+62.5% 
+- yellow
+.TP
+75% to 95%
+ - red 
+.TP
+100% 
+- magenta
 .SH OPTIONS
 .TP
 .B \--sumary <file.cvs>, -s <file.cvs>

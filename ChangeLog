@@ -1,3 +1,5 @@
+        * Added: Documented color coding in the manual of vdpvis
+	
 	* Added: bash auto-detection in configure.ac
 	
 	* Fixed: pupil diameter formula (previous fix was wrong)
