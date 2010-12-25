@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: csf_filter.cpp,v 1.2 2007/06/15 15:23:14 rafm Exp $
+ * $Id: csf_filter.cpp,v 1.3 2010/12/25 16:56:06 rafm Exp $
  */
 
 #include <math.h>
@@ -196,7 +196,10 @@ void MultiAdaptationCSF::process( BidomainArray2D *in, BidomainArray2D *out,
 
 float ViewingConditions::getPixelsPerDegree( float observerDistance ) const
 {
-  return 2*tan( 0.5 / 180. * M_PI )*observerDistance * (float)xResolution / displayWidth;  
+  if( pixelsPerDegree != -1 )
+    return pixelsPerDegree * observerDistance / ((minDistance+maxDistance)/2.);
+  else
+    return 2*tan( 0.5 / 180. * M_PI )*observerDistance * (float)xResolution / displayWidth;  
 }
 
 

@@ -1,3 +1,8 @@
+        * Fixed:  Configure script handles -enable-debug with overwriting
+	CXXFLAGS 
+
+	* Added: New option: pixels-per-degree
+	
 v1.7.1 2010-12-19  Rafal Mantiuk  <mantiuk@gmail.com>
 
         * Added: Documented color coding in the manual of vdpvis

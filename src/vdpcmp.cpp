@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: vdpcmp.cpp,v 1.3 2008/06/24 17:50:58 rafm Exp $
+ * $Id: vdpcmp.cpp,v 1.4 2010/12/25 16:56:06 rafm Exp $
  */
 
 #include <iostream>
@@ -138,7 +138,7 @@ static void errorCheck( bool condition, const char *string )
 
 void printHelp()
 {
-  fprintf( stderr, PROG_NAME " <mask_file> <target_file> [--ldr] [--mask <val>] [--psycho <val>] [--otf <otfID>] [--peak-contrast <contrast>] [--detection-mechanism <dmID>] [--no-phase-uncertainty] [--dump <pattern>] [--display-x-resolution] [--display-y-resolution] [--display-width] [--display-height] [--min-distance] [--max-distance] [--multiply-lum] [--no-abs-fix] [--verbose] [--help]\n"
+  fprintf( stderr, PROG_NAME " <mask_file> <target_file> [--ldr] [--mask <val>] [--psycho <val>] [--otf <otfID>] [--peak-contrast <contrast>] [--detection-mechanism <dmID>] [--no-phase-uncertainty] [--dump <pattern>] [--display-x-resolution] [--display-y-resolution] [--display-width] [--display-height] [--min-distance] [--max-distance] [--pixels-per-degree <pixels>] [--multiply-lum] [--no-abs-fix] [--verbose] [--help]\n"
     "See man page for more information.\n" );
 }
 
@@ -157,6 +157,7 @@ void processVDP(int argc, char **argv)
   float displayWidth = 0.375, displayHeight = 0.300;
   int displayXResolution = 1280, displayYResolution = 1024;
   float peakContrast = 0.006;
+  float pixelsPerDegree = -1;
   bool absFix = true;
 
   bool verbose = false;
@@ -182,6 +183,7 @@ void processVDP(int argc, char **argv)
     { "peak-contrast", required_argument, NULL, 'c' },
     { "multiply-lum", required_argument, NULL, '*' },
     { "no-abs-fix", no_argument, NULL, 'R' },
+    { "pixels-per-degree", required_argument, NULL, 'r' },
     { NULL, 0, NULL, 0 }
   };
 
@@ -189,7 +191,7 @@ void processVDP(int argc, char **argv)
   
   int optionIndex = 0;
   while( 1 ) {
-    int c = getopt_long (argc, argv, "m:p:", cmdLineOptions, &optionIndex);
+    int c = getopt_long (argc, argv, "m:p:vr:", cmdLineOptions, &optionIndex);
     if( c == -1 ) break;
     switch( c ) {
     case 'h':
@@ -240,6 +242,9 @@ void processVDP(int argc, char **argv)
     case 'c':
       peakContrast = (float)strtod( optarg, NULL );
       break;
+    case 'r':
+      pixelsPerDegree = (float)strtod( optarg, NULL );
+      break;
     case 'R':
       absFix = false;
       break;
@@ -284,6 +289,8 @@ void processVDP(int argc, char **argv)
   
   maskFh = maskIsStdin ? stdin : fopen( maskFile, "rb" );
   errorCheck( maskFh != NULL, "Can not open mask image file" );
+
+  errorCheck( pixelsPerDegree == -1 || pixelsPerDegree > 0, "pixels-per-degree value must be positive" );
   
   pfs::DOMIO pfsio;
     
@@ -323,8 +330,13 @@ void processVDP(int argc, char **argv)
     ViewingConditions viewCond( displayXResolution, displayYResolution,
       displayWidth, displayHeight, minDistance, maxDistance );
 
+    if( pixelsPerDegree != -1 ) {
+      viewCond = ViewingConditions( pixelsPerDegree, minDistance, maxDistance );
+    } 
+      
+
     if( verbose )
-      fprintf( stderr, "Cycles per degree: %g\n", viewCond.getPixelsPerDegree( (viewCond.minDistance + viewCond.maxDistance)/2 ) );
+      fprintf( stderr, "Pixels per degree: %g\n", viewCond.getPixelsPerDegree( (viewCond.minDistance + viewCond.maxDistance)/2 ) );
     
     
     if( hdr == false ) {        // Use original Daly's VDP

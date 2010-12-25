@@ -22,7 +22,7 @@
  *
  * @author Rafal Mantiuk, <mantiuk@mpi-inf.mpg.de>
  *
- * $Id: csf_filter.h,v 1.1 2006/10/30 19:07:48 rafm Exp $
+ * $Id: csf_filter.h,v 1.2 2010/12/25 16:56:06 rafm Exp $
  */
 
 #ifndef CSF_FILTER_H
@@ -52,16 +52,27 @@ class ViewingConditions
 {
 public:
   
-  const int xResolution, yResolution;
-  const float displayWidth, displayHeight;
-  const float minDistance, maxDistance;
+  int xResolution, yResolution;
+  float displayWidth, displayHeight;
+  float minDistance, maxDistance;
+  float pixelsPerDegree;
     
   ViewingConditions( int xResolution, int yResolution,
     float displayWidth, float displayHeight,
     float minDistance, float maxDistance ) :
-    xResolution( xResolution ), yResolution( yResolution ),
-    displayWidth( displayWidth ), displayHeight( displayHeight ),
-    minDistance( minDistance ), maxDistance( maxDistance )
+      xResolution( xResolution ), yResolution( yResolution ),
+      displayWidth( displayWidth ), displayHeight( displayHeight ),
+      minDistance( minDistance ), maxDistance( maxDistance ),
+      pixelsPerDegree( -1 )
+    {
+    }
+
+  ViewingConditions( float pixelsPerDegree,
+    float minDistance, float maxDistance ) :
+      xResolution( -1 ), yResolution( -1 ),
+	displayWidth( -1 ), displayHeight( -1 ),
+	minDistance( minDistance ), maxDistance( maxDistance ),
+	pixelsPerDegree( pixelsPerDegree )
     {
     }
 
