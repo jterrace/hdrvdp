@@ -1,4 +1,4 @@
-bin_PROGRAMS = vdpcmp vdpvis
+bin_PROGRAMS = vdpcmp vdpvis vdpsum
 bin_SCRIPTS  = vdp
 man_MANS = vdp.1 vdpcmp.1 vdpvis.1
 
@@ -16,6 +16,7 @@ vdpcmp_SOURCES = vdpcmp.cpp \
 	fftutils.cpp fftutils.h fftw_array2d.h
 
 vdpvis_SOURCES = vdpvis.cpp
+vdpsum_SOURCES = vdpsum.cpp
 
 LIBS += $(PFS_LIBS) $(FFTW_THREADS_LIBS) $(FFTW_LIBS) 
 INCLUDES = $(PFS_CFLAGS) $(FFTW_CFLAGS)
