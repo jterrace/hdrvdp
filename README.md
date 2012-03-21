@@ -94,6 +94,14 @@ which are the output of the 'vdp' frontend.
 
 http://netpbm.sourceforge.net/
 
+Mac:
+
+    brew install fftw
+
+Ubuntu:
+
+   apt-get install 
+
 Compilation:
 ------------
 
